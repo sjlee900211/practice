@@ -1,0 +1,6 @@
+f = open("two_times_table.txt")
+line1 = f.readline()
+line2 = f.readline()
+f.close()
+print(line1, end="")
+print(line2, end="")
