@@ -1,6 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
+pd.set_option('precision', 3)
+df = pd.read_csv('scores_em.csv', index_col='student number')
+df.head()
 english_scores = np.array(df['english'])
 # 캔버스 생성
 # figsize로 가로 세로 크기 지정
