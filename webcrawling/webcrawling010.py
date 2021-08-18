@@ -40,3 +40,9 @@ authors = soup2.find_all('p',{"id":"author"})
 
 for book_title, author in zip(book_titles, authors):
     print(book_title.get_text() + '/' + author.get_text())
+    
+soup2.select('body h1')
+soup2.select('body p')
+soup2.select('p')
+soup2.select('p#book_title')
+soup2.select('p#author')
