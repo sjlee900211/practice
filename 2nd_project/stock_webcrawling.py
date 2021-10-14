@@ -67,5 +67,4 @@ for market, code in marketType.items():
             except IndexError:
                 continue
             
-
 time.sleep(10)

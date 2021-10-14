@@ -17,7 +17,6 @@ def done():
 def start_crawling():
     try:
         file_globals = runpy.run_path('stock_webcrawling.py')
-        return redirect(url_for('done'))
     except SystemExit:
         pass
 
@@ -28,6 +27,18 @@ def insight001():
 @app.route('/insight002')
 def insight002():
     return render_template("insight002.html")
+
+@app.route('/insight003')
+def insight003():
+    return render_template("insight003.html")
+
+@app.route('/insight004')
+def insight004():
+    return render_template("insight004.html")
+
+@app.route('/insight005')
+def insight005():
+    return render_template("insight005.html")
     
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
