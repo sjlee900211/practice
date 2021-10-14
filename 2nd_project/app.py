@@ -20,6 +20,14 @@ def start_crawling():
         return redirect(url_for('done'))
     except SystemExit:
         pass
+
+@app.route('/insight001')
+def insight001():
+    return render_template("insight001.html")
+
+@app.route('/insight002')
+def insight002():
+    return render_template("insight002.html")
     
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
