@@ -1,0 +1,32 @@
+<html> 
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <center>
+      <h3 style="color: Navy;" class="let_space">이거 해조의 네이버주식정보사이트에 오신 것을 환영합니다.</h3>
+    </center> 
+
+	</head>
+	
+	<body>
+             
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> </script>
+        <script type=text/javascript> $(function() { $("#crawl").click(function (event) { $.getJSON('/crawling', { },
+          function(data) { }); return false; }); }); </script>    
+          <input type = "button" onclick="crawl()" id = "crawl" value = "크롤링 시작" />
+          <script type="text/javascript">
+          function crawl()
+          {
+          document.getElementById("crawl").value="크롤링 중...";
+          }
+          </script>
+
+        
+
+        
+        <br>
+        <br>
+        <br>
+
+    </body>
+
+</html>
