@@ -15,19 +15,16 @@
             $("#crawl").click(function (event) { 
               $.getJSON('/crawling'
               , { }
-              ,function(data) { 
-              });
-                return false;
-                                 
+              ,function(data) { });
+                return false; 
             }); 
           }); 
-        </script>    
-          <input type = "button" onclick="alert()" id = "crawl" value = "크롤링 " />
+          </script>      
+          <input type = "button" onclick="crawl()" id = "crawl" value = "크롤링 시작" />
           <script type="text/javascript">
           function crawl(){
             document.getElementById("crawl").value="크롤링 중...";
           }
-
           </script>
         <div class = 'page-header'>
           <h2>웹크롤링 시각화</h2>
