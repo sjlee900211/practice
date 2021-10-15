@@ -7,7 +7,6 @@ import time
 
 # ID_생성하기-> 순위별로 추가해야 함
 client = pymongo.MongoClient("mongodb+srv://testdb:multi@cluster0.jxvfb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
-# client = pymongo.MongoClient("mongodb+srv://testdb:0000@cluster0.jxvfb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 # client = pymongo.MongoClient(host='mongodb://52.197.26.81', port=27017, username = 'admin', password = '1234')
 mydb = client['네이버']
 mycol = mydb["네이버주식정보"]
