@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import re
 import time
 
+
 # ID_생성하기-> 순위별로 추가해야 함
 client = pymongo.MongoClient("mongodb+srv://testdb:multi@cluster0.jxvfb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 # client = pymongo.MongoClient("mongodb+srv://testdb:0000@cluster0.jxvfb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
@@ -66,6 +67,6 @@ for market, code in marketType.items():
 
             except IndexError:
                 continue
-            
+                     
 
 time.sleep(10)
