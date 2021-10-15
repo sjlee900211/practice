@@ -36,12 +36,27 @@
                 <li><a href = "{{url_for('insight003')}}">카카오 시각화</a></li>
                 <li><a href = "{{url_for('insight004')}}">하이닉스 시각화</a></li>
                 <li><a href = "{{url_for('insight005')}}">셀트리온 시각화</a></li>
+                <li><a href = "{{url_for('dash')}}" id='dash'>dash 시각화</li>
             </ul>
           </div>
-
-
-        
-
+          
+          <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> </script>
+          <script type=text/javascript> 
+            $(function() { 
+              $("#dash").click(function (event) { 
+                $.getJSON('/dash'
+                , { }
+                ,function(data) { });
+                  return false; 
+              }); 
+            }); 
+            </script>    
+              <input type = "button" onclick="move_to()" id = "dash" value = "dash 시각화" />
+              <script type="text/javascript">
+              function move_to(){
+                location.href = "http://127.0.0.1:8000";
+              }
+              </script>  
         
         
         <br>

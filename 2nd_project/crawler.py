@@ -6,10 +6,10 @@ import time
 import re
 
 
-# client = pymongo.MongoClient("mongodb+srv://testdb:multi@cluster0.jxvfb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
-client = pymongo.MongoClient(host='mongodb://52.197.26.81', port=27017, username = 'admin', password = '1234')
-mydb = client['네이버']
-mycol = mydb['네이버주식정보']
+client = pymongo.MongoClient("mongodb+srv://testdb:multi@cluster0.jxvfb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+#client = pymongo.MongoClient(host='mongodb://52.197.26.81', port=27017, username = 'admin', password = '1234')
+db = client['네이버']
+col = db['네이버주식정보']
 
 marketType = {
     "KOSPI": "0",
@@ -69,7 +69,7 @@ def crawling():
                     'ROE':content[12],
                 }
                 
-                mycol.insert_one(data)
+                col.insert_one(data)
         print(f"Complete {market}...", now)
 
 

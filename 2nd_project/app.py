@@ -1,9 +1,13 @@
 from flask import Flask, render_template, url_for, request, redirect
 import runpy
 from flask.helpers import flash
+from dash import Dash
+from plotly_dash import *
 
 app = Flask(__name__)
 
+dash_app = Dash(__name__, server=app, url_base_pathname='/dash/')
+plotlydash(dash_app)
  
 @app.route('/')
 def home():
@@ -41,4 +45,4 @@ def insight005():
     return render_template("insight005.html")
     
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(debug=True)
