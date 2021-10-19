@@ -5,9 +5,8 @@ from bs4 import BeautifulSoup
 import time
 import re
 
-
-client = pymongo.MongoClient("mongodb+srv://testdb:multi@cluster0.jxvfb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
-#client = pymongo.MongoClient(host='mongodb://52.197.26.81', port=27017, username = 'admin', password = '1234')
+# MongoDB 연결
+client = pymongo.MongoClient(host='mongodb://52.197.26.81', port=27017, username = 'admin', password = '1234')
 db = client['네이버']
 col = db['네이버주식정보']
 
@@ -18,20 +17,25 @@ marketType = {
 
 
 def crawling():
+    # KOSPI, KOSDAQ
     for market, code in marketType.items():
         now = datetime.datetime.now().strftime("%Y/%m/%d %H:%M")
         print(f'Start {market}...', now)
+
+        # 네이버 주식 시가총액 페이지 4page까지 추출
         for page in range(1, 5):
             html = requests.get(f"https://finance.naver.com/sise/sise_market_sum.naver?sosok={code}&page={page}").text
             soup = BeautifulSoup(html, 'lxml')
             now = datetime.datetime.now().strftime("%Y/%m/%d %H:%M")
 
+            # 종목명, 현재가, 전일비, 등락률, 액면가, 시가총액, 상장주식수, 외국인비율, 거래량, PER, ROE 추출
             stockContents = soup.find_all('tr', {'onmouseover': 'mouseOver(this)'})
-
+            
             for stockContent in stockContents:
+                # 공백 제거 (strip() 사용시 종목명에 공백이 있을 경우 같이 분리되므로 아래와 같이 사용)
                 content = re.split('\n|\t', stockContent.text)
-                content = list(filter(None, content))
-                content = [market] + content
+                content = list(filter(None, content)) # None값 제거
+                content = [market] + content  # content 항목에 시장(KOSPI, KOSDAQ) 추가
                         
                 # 전일비 상승 하락 표시
                 if stockContent.select("span.tah.p11.red02"):
@@ -52,6 +56,7 @@ def crawling():
                     else:
                         content[i] = float(content[i].replace(',', ''))
 
+                # Dictionary 데이터 생성
                 data = {
                     '시간':now,
                     '시장':content[0],
@@ -69,6 +74,7 @@ def crawling():
                     'ROE':content[12],
                 }
                 
+                # MongoDB에 저장
                 col.insert_one(data)
         print(f"Complete {market}...", now)
 

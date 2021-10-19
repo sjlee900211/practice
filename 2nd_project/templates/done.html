@@ -4,8 +4,13 @@
 </head>
 <body>
 <div data-role="page" id="done" data-url="{{ url_for('done') }}">
-<h3> 크롤링이 완료되었습니다!</h3>
-
+<!-- title 전달 값에 따라 title 명칭 바뀜-->
+<h2> <strong>{{ title }}</strong>이 완료되었습니다!</h2>
+<h4> 현재 시간: {{ current_time }}</h4>
+<!--Home버튼 생성-->
+<form action="/home">
+    <input type="submit" value="<- Home">
+</form>
 </body>
 
 </html>
