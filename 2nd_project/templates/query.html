@@ -1,0 +1,28 @@
+<html> 
+<head>
+    <title>query</title>
+</head>
+<body>
+<div data-role="page" id="query" data-url="{{ url_for('query') }}">
+<!-- title 전달 값에 따라 title 명칭 바뀜-->
+<h3>쿼리문 입력</h3>
+<form action="/query" method="post">
+<p>db.getCollection('네이버주식정보').find({<input type="text" name="query"/>})</p>
+</form>
+<form method="POST" action="{{ url_for('query') }}">
+<input type="submit" action="/query" value="조회">
+
+{% if query %}
+    <p>{{query}}</p>
+{% else %}
+    <p>쿼리 조회를 해주세요</p>
+{% endif %}
+<h4> 현재 시간: {{ current_time }}</h4>
+</form>
+<!--Home버튼 생성-->
+<form action="/home">
+    <input type="submit" value="<- Home">
+
+</body>
+
+</html>
