@@ -1,5 +1,6 @@
 import dash
-from dash import dcc, html, callback_context, Input, Output, dash_table
+from dash import dcc as dcc
+from dash import html, callback_context, Input, Output
 import plotly.express as px
 import pymongo
 import pandas as pd
@@ -67,7 +68,7 @@ def plotlydash(app):
         html.Div(
             dcc.Loading(
                 id="loading",
-                children=[html.Div(id="loading-output")],
+                children=[html.Div(id="loading-output")],#, style={'color':'#aaa', 'display':'flex', 'flex-direction':'row-reverse', 'vertical-align': 'top'})],
                 type="circle")),
 
         html.Br(),
@@ -75,20 +76,16 @@ def plotlydash(app):
         # 그래프 그리기---------------
         html.Div(
             dcc.Graph(id="line"),
-            style={"width":"90%"}),
-        html.Br(),
-
-        # 데이터 테이블---------------
-        html.Center(id='datatable', style={'width':'90%'}),
-
+            style={"width":"90%"})
     ]) 
 
 
-    # 그래프 함수 정의--------------------------------------------------------
+    # 그래프 함수-------------------------------------------------------------
     def draw_chart(company):
+        df = pd.DataFrame()
         # 선택한 회사의 데이터를 dataframe으로 생성
-        df = pd.DataFrame(list(col.find({'종목명':company}))).iloc[:, 1:]
-
+        for data in col.find({'종목명':company}):
+            df = df.append(data, ignore_index=True)
         # 그래프 그리기
         fig = px.line(df, x='시간', y='현재가', hover_data=['전일비', '등락률','액면가', '시가총액', '상장주식수', '외국인비율', '거래량', 'PER', 'ROE']) 
         fig.update_layout(
@@ -96,41 +93,6 @@ def plotlydash(app):
             yaxis={'tickformat':',d'}
         )
         return fig
-
-    # 데이터 테이블 함수 정의--------------------------------------------------
-    def draw_datatable(company):
-        if company:
-            df = pd.DataFrame(list(col.find({'종목명':company}))).iloc[:, 1:]
-        else:
-            df = pd.DataFrame(list(col.find())).iloc[:, 1:]
-
-        return dash_table.DataTable(
-            data=df.to_dict('records'),
-            columns=[{'name': x, 'id': x} for x in df.columns],
-            sort_by=[{'column_id': '시간', 'direction': 'desc'}],
-            sort_mode="multi",
-            sort_action="native",  # 사용자가 정렬할 수 있음
-            filter_action="native", # 데이터 검색 가능
-            page_size=10,  # 한 페이지에 표시될 행 수
-            style_data_conditional=[
-                {   # 상승 - 빨간색으로 표시
-                    'if': {
-                        'filter_query': '{전일비} contains "+"',
-                        'column_id': ['전일비', '등락률']
-                    },
-                    'color': 'red',
-                },
-                {   # 하락 - 파란색으로 표시
-                    'if': {
-                        'filter_query': '{전일비} contains "-"',
-                        'column_id': ['전일비', '등락률']
-                    },
-                    'color':'blue'
-                }
-            ],
-            style_cell={'textAlign': 'center', 'minWidth': '50px',
-                        'width': '50px', 'maxWidth': '100px'},
-        )
 
 
     # 회사 선택--------------------------------------------------------------
@@ -156,7 +118,6 @@ def plotlydash(app):
     # 크롤링 버튼, 그래프 그리기-----------------------------------------------
     @app.callback(
         Output("line", "figure"),
-        Output("datatable", "children"),
         Output("output-message", "children"),
         Output("loading-output", "children"),
         Input("company", "value"),
@@ -168,15 +129,15 @@ def plotlydash(app):
             crawling()  # 크롤링 시작
             now = datetime.datetime.now().strftime("%Y/%m/%d %H:%M")
             if selected_company:  # 선택되어 있는 회사가 있으면 그래프 새로 그림         
-                return draw_chart(selected_company), draw_datatable(selected_company), f'완료! {now}', None   # 그래프, 데이터테이블, 크롤링 완료 메세지 반환
+                return draw_chart(selected_company), f'완료! {now}', None  # 그래프와 크롤링 완료 메세지 반환
             else:
                 fig = px.line()  # 빈 그래프 생성
-                return fig, draw_datatable(selected_company), f'완료! {now}', None
+                return fig, f'\t완료! {now}', None
         
         # 초기 화면, 선택한 회사의 그래프 생성
         else:
             if selected_company:
-                return draw_chart(selected_company), draw_datatable(selected_company), None, None
+                return draw_chart(selected_company), None, None
             else:
                 fig = px.line()
-                return fig, draw_datatable(selected_company), None, None
+                return fig, None, None

@@ -2,11 +2,11 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <center>
-      <h1 style="color: Navy;" class="let_space">Welcome to Automated Analytics Site of Stock Market</h1>
+      <h1 style="color: Navy;" class="let_space">이거 해조의 네이버주식정보사이트에 오신 것을 환영합니다.</h1>
     </center> 
 
 	</head>
-	<center>
+	
 	<body>
         <!-- 웹크롤링 실행용 버튼 만들기 -->  
           <form action="/crawling">
@@ -27,16 +27,10 @@
               }
               </script>
           </form>
-          </center>
-          <!-- 쿼리 버튼 생성
-          <form action="/query_page">
-              <input type="submit" id="query" value="쿼리조회">
-          </form>-->
-
           <h2>웹크롤링 시각화</h2>
           <h3>- 주식 시각화 목록</h3>
-          <div class="Menu-bar" >
-            <ul class="menu-bar" text-align: center;>
+          <div class="Menu-bar">
+            <ul class="menu-bar">
                 <!-- 해당 url로 동적 구현을 하기 위해 app.py에서 지정해줬던 url_for를 이용해 url 호출 -->
                 <li><a href = "{{url_for('/dash/')}}">대시보드</a></li>
                 <li><a href = "{{url_for('insight001')}}">삼성전자 시각화</a></li>
@@ -48,6 +42,14 @@
             </ul>
           </div>
 
+
+        
+
+        
+        
+        
+        <br>
+
     </body>
-    
+
 </html>

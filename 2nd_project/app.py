@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 from flask import Flask, render_template, redirect, url_for, request
 from dash import Dash
-from flask.helpers import flash
 from plotly_dash import *
 import pickle
 
@@ -33,27 +32,11 @@ def done():
     now = datetime.datetime.now()
     return render_template("done.html", current_time = now, title=title)
 
-# 웹크롤링 실행 호출
+# 웹크롤링 실행 호출(runpy 모듈 사용)
 @app.route('/crawling') 
 def start_crawling():
     crawling()
     return redirect(url_for('done', title = '크롤링'))
-
-# # 쿼리조회용 페이지 이동
-# @app.route('/query_page')
-# def query_page():
-#     return render_template("query.html")
-
-# @app.route('/query', methods=['GET', 'POST'])
-# def query():
-#     doc = db.col.find()
-#     # querys = db.col
-#     query = ''
-#     if query is None:
-#         query = request.form.get('query')
-#     # query = querys.find_all({'query'})
-    
-#     return redirect(url_for('query_page', query=query))    
     
 # 삼성전자 시각화 대시보드 호출용 url
 @app.route('/insight001') # 호출시 해당 url로 할당
