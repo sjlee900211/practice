@@ -1,0 +1,22 @@
+회원가입 페이지
+<br>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <p>아이디</p>
+    <input name ="username" type="text">
+    <p>패스워드</p>
+    <input name ="password" type="password">
+    <p>이름</p>
+    <input name="name" type="text">
+    <p>성별</p>
+    <input name="gender" type="text">
+    <p>키</p>
+    <input name="height" type="text"> cm
+    <p>체중</p>
+    <input name="weight" type="text"> kg
+    <p>연령</p>
+    <input name="age" type="text">
+    <p>활동량</p>
+    <input name="activity" type="text">
+    <input type="submit" value="회원가입">

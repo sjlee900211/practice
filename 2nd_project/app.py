@@ -3,7 +3,6 @@ from flask import Flask, render_template, redirect, url_for, request
 from dash import Dash
 from plotly_dash import *
 import pickle
-
 # Flask app전역객체로 사용가능하게 선언(인스턴스 생성)
 app = Flask(__name__) # 단일 모듈의 형태
 

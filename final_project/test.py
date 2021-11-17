@@ -1,27 +1,9 @@
-from bs4 import BeautifulSoup as bs
-from urllib.request import urlopen
-from urllib.parse import quote_plus
- 
-baseUrl = 'https://search.naver.com/search.naver?where=image&sm=tab_jum&query='
-plusUrl = input('검색어 입력: ') 
-crawl_num = int(input('크롤링할 갯수 입력(최대 50개): '))
- 
-url = baseUrl + quote_plus(plusUrl) # 한글 검색 자동 변환
-html = urlopen(url)
-soup = bs(html, "html.parser")
-img = soup.find_all(class_='_img')
- 
-n = 1
-for i in img:
-    print(n)
-    imgUrl = i['data-source']
-    with urlopen(imgUrl) as f:
-        with open('./images/img' + str(n)+'.jpg','wb') as h: # w - write b - binary
-            img = f.read()
-            h.write(img)
-    n += 1
-    if n > crawl_num:
-        break
-    
-    
-print('Image Crawling is done.')
+import requests
+from urllib import parse
+
+url = 'http://apis.data.go.kr/1471000/HtfsInfoService1/getHtfsList'
+mykey = 'piyGwHd6LfjAN5DT8R9HBEetsXCWiypj4Gkpf8asve2XyywqyOtEknLJUlp8LzEK3pXz2iTFBpBQfp/SfmueBg=='
+params ={'serviceKey' : mykey, 'Entrps' : '성풍양행(주)', 'Prduct' : '에스피 스피릿 - 크레아틴', 'Sttemnt_no' : '201400170875', 'pageNo' : '1', 'numOfRows' : '10', 'type' : 'xml' }
+
+response = requests.get(url, params=params)
+print(response.content)
