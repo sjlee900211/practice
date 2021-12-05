@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+    <!-- Section-->
+    <section>
+        <div class="main-text">
+            <h2 class="display-5 fw-bolder">{{ data.created_at | date:"m월d일"}}</h2>
+            <h4 class="display-5 meal"> {{ data.mealtimes }} 식사 영양정보</h4>
+        </div>
+        <form action="{% url 'upload:temp' pk=data.pk %}" method="post" enctype="multipart/form-data">
+
+            {% csrf_token %}
+            <div class="img-container">
+                <div class="wrapper">
+                    <div class="image">
+                        <img src='{{ data.image.url }}' alt='' />
+                    </div>
+                    <div id="img-name">File name here</div>
+                </div>
+                <button type="button" id="custom-btn" class="btn btn-dark openModalBtn">
+                    REPOST
+                </button>
+                <!-- 모달 영역 -->
+                <div id="modalBox" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">Information</h4>
+                            </div>
+                            <div class="modal-body">
+                                메인페이지로 돌아갑니다.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary"  onclick="delete_modal()" >확인</button>
+                                <button type="button" class="btn btn-default" id="closeModalBtn">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-dismissible alert-primary">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <strong>Choose!</strong> date to eat! & how many servings!
+                </div>
+                <!-- 먹을 날짜 선택 -->
+                {% bootstrap_form date %}
+
+                <!-- 음식 몇인분? 선택 -->
+                {% if food %}
+                    {% for i in food %}
+                        <div class="accordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                                    <strong>{{ i }}</strong>
+                                </button>
+                            </h2>
+                            <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <fieldset class="form-group">
+                                        <h5 class="mt-4">How many servings did you eat?</h5>
+                                        <div id="serve_number" >
+                                            {% bootstrap_form serve %}
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <input type="submit" class="btn btn-primary mt-8" id="custom-btn" value="upload">
+                </div>
+        </form>
+        <script src="{% static 'js/upload.js' %}"></script>
+        <script>
+            $('.bagde').ready(function() {
+                const meal = document.getElementsByClassName('meal');
+                const text = '식사 영양 정보'
+                if (meal) {
+                    meal[0].textContent = '아침' + text;
+                    meal[1].textContent = '점심' + text;
+                    meal[2].textContent = '저녁' + text;
+                } else {
+                    return;
+                }
+            });
+            // 모달 버튼에 이벤트를 건다.
+            $('.openModalBtn').on('click', function(){
+                $('#modalBox').modal('show');
+            });
+            // 모달 안의 취소 버튼에 이벤트를 건다.
+            $('#closeModalBtn').on('click', function(){
+                $('#modalBox').modal('hide');
+            });
+            function delete_modal() {
+                location.replace('/temp/{{ data.pk }}/delete/');
+            }
+
+            const eatenForm =document.getElementById('id_eaten_dt');
+
+            eatenForm.value = '{{ data.created_at|date:"Y-m-d" }}'
+                //new Date().toISOString().substring(0, 10);
+
+        </script>
+
+    </section>
+{% endblock %}

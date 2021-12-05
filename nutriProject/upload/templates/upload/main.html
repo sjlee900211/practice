@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+    <!-- Section-->
+    <section id="main_upload-page">
+        <div class="main-text">
+            <h2 class="display-5 fw-bolder">사진을 업로드 해주세요!</h2>
+            <h4 class="display-5">Please upload your pic!</h4>
+        </div>
+        <form action="{% url 'upload:main' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="img-container">
+                <div class="wrapper">
+                    <div class="image">
+                        <img src='' onerror="this.style.display='none'" alt='' />
+                    </div>
+                    <div class="content">
+                        <div class="file-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                        <div class="file-inner_text">No file chosen, yet!</div>
+                    </div>
+                    <div id="img-cancle"><i class="fas fa-times"></i></div>
+                    <div id="img-name">File name here</div>
+                </div>
+                <button onclick ="defaultBtnActive()" id="custom-btn" class="btn btn-dark">Choose a file</button>
+                {% bootstrap_form form %}
+                <input type="submit" class="btn btn-primary mt-8" id="custom-btn" value="next">
+            </div>
+        </form>
+        <script src="{% static 'js/upload.js' %}"></script>
+
+    </section>
+{% endblock %}
+
+<!--
+<div class="form-group">
+<input type="file" hidden name="image" accept="image/*" class="form-control-file" title="" required="" id="default-btn">
+<button onclick ="defaultBtnActive()" id="custom-btn" class="btn btn-dark">Choose a file</button>
+</div>
+<label for="exampleSelect1" class="form-label5" placeholder="Meal Times"></label> -->

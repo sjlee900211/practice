@@ -1,0 +1,37 @@
+{% load static %}
+<!-- Navigation-->
+
+{% load static %}
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#!">오로나민C조</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'upload:main' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'upload:list' %}">History</a>
+                </li>
+                {% if not user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+                </li>
+                <li class="nav-signup">
+                    <a class="btn btn-primary ml-auto mr-1" href="{% url 'accounts:signup' %}">Sign Up</a>
+                    {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:logout' %}">Log Out</a>
+                </li>
+                <li class="nav-signup">
+                    <a class="btn btn-primary ml-auto mr-1" href="{% url 'accounts:detail' pk=user.pk %}">My Page</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
