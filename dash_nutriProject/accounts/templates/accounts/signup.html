@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+
+    <div class="signup-form">
+        <h2>Sing Up</h2>
+        <form class="" action="{% url 'accounts:signup' %}" method="post">
+            {% csrf_token %}
+{#            {% for i in form %}#}
+            {% bootstrap_form form %}
+{#            {{ i.label_tag }} {{ i }}#}
+{#            {% endfor %}#}
+            <input id="custom-btn" type="submit" class="btn btn-primary mt-4 mb-4" value="SIGN UP">
+        </form>
+    {{ post }}
+    </div>
+
+{% endblock %}
